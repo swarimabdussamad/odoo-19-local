@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Customer Portal - Sale Order View -->
+    <template id="portal_order_page_rental" inherit_id="sale.sale_order_portal_content">
+        
+        <!-- Add rental details section before the order lines table -->
+        <xpath expr="//table[@id='sales_order_table']" position="before">
+            <t t-if="sale_order.rental_line_ids">
+                <div class="container mt-4 mb-4">
+                    <h4 style="color: #875A7B; border-bottom: 2px solid #875A7B; padding-bottom: 10px; margin-bottom: 20px;">
+                        🚗 Vehicle Rental Details
+                    </h4>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-bordered" style="border: 1px solid #dee2e6;">
+                            <thead style="background-color: #875A7B; color: white;">
+                                <tr>
+                                    <th style="padding: 12px;">Vehicle</th>
+                                    <th class="text-center" style="padding: 12px;">Pickup</th>
+                                    <th class="text-center" style="padding: 12px;">From</th>
+                                    <th class="text-center" style="padding: 12px;">To</th>
+                                    <th class="text-center" style="padding: 12px;">Days</th>
+                                    <th class="text-right" style="padding: 12px;">Daily Rate</th>
+                                    <th class="text-right" style="padding: 12px;">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="sale_order.rental_line_ids" t-as="rental">
+                                    <tr>
+                                        <td style="padding: 12px;">
+                                            <strong><span t-field="rental.vehicle_id"/></strong>
+                                        </td>
+                                        <td class="text-center" style="padding: 12px;">
+                                            <t t-if="rental.pickup_location == 'doha'">Doha</t>
+                                            <t t-elif="rental.pickup_location == 'wakra'">Al Wakra</t>
+                                            <t t-elif="rental.pickup_location == 'alkhor'">Al Khor</t>
+                                        </td>
+                                        <td class="text-center" style="padding: 12px;">
+                                            <span t-field="rental.start_date" t-options='{"format": "dd/MM/yyyy"}'/>
+                                        </td>
+                                        <td class="text-center" style="padding: 12px;">
+                                            <span t-field="rental.end_date" t-options='{"format": "dd/MM/yyyy"}'/>
+                                        </td>
+                                        <td class="text-center" style="padding: 12px;">
+                                            <strong><span t-field="rental.days"/></strong>
+                                        </td>
+                                        <td class="text-right" style="padding: 12px;">
+                                            <span t-field="rental.rent_price" t-options='{"widget": "monetary", "display_currency": sale_order.currency_id}'/>
+                                        </td>
+                                        <td class="text-right" style="padding: 12px; background-color: #f8f9fa;">
+                                            <strong><span t-field="rental.subtotal" t-options='{"widget": "monetary", "display_currency": sale_order.currency_id}'/></strong>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="alert alert-info mt-3" role="alert">
+                        <strong>📋 Rental Terms:</strong><br/>
+                        • Vehicle must be returned to the same pickup location<br/>
+                        • Valid driver's license required<br/>
+                        • Fuel policy: Return with same fuel level<br/>
+                        • Late return charges may apply
+                    </div>
+                </div>
+            </t>
+        </xpath>
+
+        <!-- Hide the standard order lines table in portal when rental lines exist -->
+        <xpath expr="//table[@id='sales_order_table']" position="attributes">
+            <attribute name="t-if">not sale_order.rental_line_ids</attribute>
+        </xpath>
+
+    </template>
+
+    <!-- Customer Portal - Invoice View -->
+    <template id="portal_invoice_page_rental" inherit_id="account.portal_invoice_page">
+        <xpath expr="//div[@id='invoice_content']" position="before">
+            <t t-if="invoice.invoice_origin">
+                <t t-set="sale_order" t-value="request.env['sale.order'].sudo().search([('name', '=', invoice.invoice_origin)], limit=1)"/>
+                <t t-if="sale_order and sale_order.rental_line_ids">
+                    <div class="container mt-4 mb-4">
+                        <h4 style="color: #875A7B; border-bottom: 2px solid #875A7B; padding-bottom: 10px; margin-bottom: 20px;">
+                            🚗 Vehicle Rental Details
+                        </h4>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead style="background-color: #875A7B; color: white;">
+                                    <tr>
+                                        <th style="padding: 12px;">Vehicle</th>
+                                        <th class="text-center" style="padding: 12px;">Pickup</th>
+                                        <th class="text-center" style="padding: 12px;">From</th>
+                                        <th class="text-center" style="padding: 12px;">To</th>
+                                        <th class="text-center" style="padding: 12px;">Days</th>
+                                        <th class="text-right" style="padding: 12px;">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="sale_order.rental_line_ids" t-as="rental">
+                                        <tr>
+                                            <td style="padding: 12px;"><strong><span t-field="rental.vehicle_id"/></strong></td>
+                                            <td class="text-center" style="padding: 12px;">
+                                                <t t-if="rental.pickup_location == 'doha'">Doha</t>
+                                                <t t-elif="rental.pickup_location == 'wakra'">Al Wakra</t>
+                                                <t t-elif="rental.pickup_location == 'alkhor'">Al Khor</t>
+                                            </td>
+                                            <td class="text-center" style="padding: 12px;">
+                                                <span t-field="rental.start_date" t-options='{"format": "dd/MM/yyyy"}'/>
+                                            </td>
+                                            <td class="text-center" style="padding: 12px;">
+                                                <span t-field="rental.end_date" t-options='{"format": "dd/MM/yyyy"}'/>
+                                            </td>
+                                            <td class="text-center" style="padding: 12px;">
+                                                <strong><span t-field="rental.days"/></strong>
+                                            </td>
+                                            <td class="text-right" style="padding: 12px; background-color: #f8f9fa;">
+                                                <strong><span t-field="rental.subtotal" t-options='{"widget": "monetary", "display_currency": invoice.currency_id}'/></strong>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>

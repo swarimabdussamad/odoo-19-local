@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Vehicle Rental Service Product -->
+        <record id="product_vehicle_rental" model="product.product">
+            <field name="name">Vehicle Rental Service</field>
+            <field name="type">service</field>
+            <field name="list_price">0.0</field>
+            <field name="invoice_policy">order</field>
+            <field name="description">Vehicle rental service - price set per rental</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,60 @@
+<odoo>
+
+    <!-- Action -->
+    <record id="action_sale_rental_line" model="ir.actions.act_window">
+        <field name="name">Vehicle Rentals</field>
+        <field name="res_model">sale.rental.line</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Main menu -->
+    <menuitem id="menu_rental_root"
+              name="Car Rental"
+              sequence="10"/>
+
+    <!-- Sub menu -->
+    <menuitem id="menu_vehicle_rental"
+              name="Vehicle Booking"
+              parent="menu_rental_root"
+              action="action_sale_rental_line"
+              sequence="1"/>
+
+    <record id="view_rental_line_list" model="ir.ui.view">
+    <field name="name">sale.rental.line.list</field>
+    <field name="model">sale.rental.line</field>
+    <field name="arch" type="xml">
+        <list>
+            <field name="vehicle_id"/>
+            <field name="pickup_location"/>
+            <field name="start_date"/>
+            <field name="end_date"/>
+            <field name="days"/>
+            <field name="rent_price"/>
+            <field name="subtotal"/>
+        </list>
+    </field>
+</record>
+
+
+
+    <record id="view_rental_line_form" model="ir.ui.view">
+    <field name="name">sale.rental.line.form</field>
+    <field name="model">sale.rental.line</field>
+    <field name="arch" type="xml">
+        <form>
+            <group>
+                <field name="vehicle_id"/>
+                <field name="pickup_location"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="days" readonly="1"/>
+                <field name="rent_price"/>
+                <field name="subtotal" readonly="1"/>
+            </group>
+        </form>
+    </field>
+</record>
+
+
+
+</odoo>

@@ -1,0 +1,59 @@
+<odoo>
+
+    <record id="view_sale_order_form_rental" model="ir.ui.view">
+        <field name="name">sale.order.form.rental</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//page[@name='order_lines']" position="replace">
+
+                <page string="Vehicle Rental" name="rental_page">
+
+                    <field name="rental_line_ids">
+                        <list editable="bottom">
+                            <field name="vehicle_id"/>
+                            <field name="pickup_location"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="days" readonly="1"/>
+                            <field name="rent_price"/>
+                            <field name="subtotal" readonly="1"/>
+                        </list>
+
+                        <!-- popup form when click line -->
+                        <form>
+                            <group>
+                                <field name="vehicle_id"/>
+                                <field name="pickup_location"/>
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+                                <field name="days" readonly="1"/>
+                                <field name="rent_price"/>
+                                <field name="subtotal" readonly="1"/>
+                            </group>
+                        </form>
+
+                    </field>
+
+                    <group>
+                        <button name="create_rental_order_lines" 
+                                string="Update Order Lines" 
+                                type="object" 
+                                class="btn-secondary"
+                                invisible="state in ['sale', 'done', 'cancel']"/>
+                    </group>
+
+                </page>
+
+            </xpath>
+
+        </field>
+    </record>
+
+
+
+
+
+
+</odoo>

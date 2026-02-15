@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Tree view for rental lines when displayed in invoice -->
+    <record id="view_rental_line_tree_invoice" model="ir.ui.view">
+        <field name="name">sale.rental.line.tree.invoice</field>
+        <field name="model">sale.rental.line</field>
+        <field name="arch" type="xml">
+            <list create="false" delete="false" edit="false" decoration-info="True">
+                <field name="vehicle_id"/>
+                <field name="pickup_location"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="days"/>
+                <field name="rent_price"/>
+                <field name="subtotal"/>
+            </list>
+        </field>
+    </record>
+    
+    <!-- Inherit Invoice Form View to show rental details as table -->
+    <record id="view_move_form_rental" model="ir.ui.view">
+        <field name="name">account.move.form.rental</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            
+            <!-- Add rental details table before invoice lines -->
+            <xpath expr="//field[@name='invoice_line_ids']" position="before">
+                <field name="invoice_origin" invisible="1"/>
+                <field name="rental_line_ids" invisible="1"/>
+                <group string="🚗 Vehicle Rental Details" invisible="not invoice_origin or not rental_line_ids">
+                    <field name="rental_line_ids" nolabel="1" context="{'tree_view_ref': 'car_rent.view_rental_line_tree_invoice'}"/>
+                </group>
+            </xpath>
+            
+            <!-- Hide standard invoice lines when rental exists -->
+            <xpath expr="//field[@name='invoice_line_ids']" position="attributes">
+                <attribute name="invisible">rental_line_ids</attribute>
+            </xpath>
+            
+        </field>
+    </record>
+
+</odoo>
