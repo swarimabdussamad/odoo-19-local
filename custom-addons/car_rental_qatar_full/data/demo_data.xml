@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Sample Customers -->
+        <record id="customer_ahmed" model="res.partner">
+            <field name="name">Ahmed Al-Mohammed</field>
+            <field name="email">ahmed.mohammed@example.com</field>
+            <field name="phone">+974 5512 3456</field>
+            <field name="street">Al Sadd Street</field>
+            <field name="city">Doha</field>
+            <field name="country_id" ref="base.qa"/>
+            <field name="customer_type">individual</field>
+            <field name="qatar_id_number">28512345678</field>
+            <field name="driving_license_number">DL123456</field>
+            <field name="date_of_birth">1990-05-15</field>
+        </record>
+
+        <record id="customer_fatima" model="res.partner">
+            <field name="name">Fatima Al-Kuwari</field>
+            <field name="email">fatima.kuwari@example.com</field>
+            <field name="phone">+974 5523 4567</field>
+            <field name="street">West Bay</field>
+            <field name="city">Doha</field>
+            <field name="country_id" ref="base.qa"/>
+            <field name="customer_type">individual</field>
+            <field name="qatar_id_number">28598765432</field>
+            <field name="driving_license_number">DL987654</field>
+            <field name="date_of_birth">1988-08-20</field>
+        </record>
+
+        <record id="customer_john" model="res.partner">
+            <field name="name">John Smith</field>
+            <field name="email">john.smith@example.com</field>
+            <field name="phone">+974 5534 5678</field>
+            <field name="street">The Pearl</field>
+            <field name="city">Doha</field>
+            <field name="country_id" ref="base.qa"/>
+            <field name="customer_type">individual</field>
+            <field name="passport_number">US123456789</field>
+            <field name="driving_license_number">DL-USA-12345</field>
+            <field name="date_of_birth">1985-03-10</field>
+        </record>
+
+        <record id="customer_corporate" model="res.partner">
+            <field name="name">Qatar Tech Solutions WLL</field>
+            <field name="email">info@qatartech.qa</field>
+            <field name="phone">+974 4432 1000</field>
+            <field name="street">Lusail City</field>
+            <field name="city">Lusail</field>
+            <field name="country_id" ref="base.qa"/>
+            <field name="customer_type">corporate</field>
+            <field name="is_company">True</field>
+        </record>
+
+        <!-- Sample Fleet Vehicle Models (if not exists) -->
+        <record id="model_corolla" model="fleet.vehicle.model">
+            <field name="name">Corolla</field>
+            <field name="brand_id" ref="fleet.brand_toyota"/>
+        </record>
+
+        <record id="model_camry" model="fleet.vehicle.model">
+            <field name="name">Camry</field>
+            <field name="brand_id" ref="fleet.brand_toyota"/>
+        </record>
+
+        <record id="model_fortuner" model="fleet.vehicle.model">
+            <field name="name">Fortuner</field>
+            <field name="brand_id" ref="fleet.brand_toyota"/>
+        </record>
+
+        <record id="model_sunny" model="fleet.vehicle.model">
+            <field name="name">Sunny</field>
+            <field name="brand_id" ref="fleet.brand_nissan"/>
+        </record>
+
+        <record id="model_patrol" model="fleet.vehicle.model">
+            <field name="name">Patrol</field>
+            <field name="brand_id" ref="fleet.brand_nissan"/>
+        </record>
+
+        <!-- Sample Vehicles -->
+        <record id="vehicle_economy_1" model="fleet.vehicle">
+            <field name="model_id" ref="model_sunny"/>
+            <field name="license_plate">12345</field>
+            <field name="vin_sn">VIN123ECONOMY001</field>
+            <field name="model_year">2023</field>
+            <field name="color">White</field>
+            <field name="seats">5</field>
+            <field name="fuel_type">gasoline</field>
+            <field name="transmission">automatic</field>
+            <field name="rental_category_id" ref="category_economy"/>
+            <field name="rental_state">available</field>
+            <field name="odometer">15000</field>
+        </record>
+
+        <record id="vehicle_economy_2" model="fleet.vehicle">
+            <field name="model_id" ref="model_sunny"/>
+            <field name="license_plate">12346</field>
+            <field name="vin_sn">VIN123ECONOMY002</field>
+            <field name="model_year">2023</field>
+            <field name="color">Silver</field>
+            <field name="seats">5</field>
+            <field name="fuel_type">gasoline</field>
+            <field name="transmission">automatic</field>
+            <field name="rental_category_id" ref="category_economy"/>
+            <field name="rental_state">available</field>
+            <field name="odometer">12000</field>
+        </record>
+
+        <record id="vehicle_compact_1" model="fleet.vehicle">
+            <field name="model_id" ref="model_corolla"/>
+            <field name="license_plate">23456</field>
+            <field name="vin_sn">VIN123COMPACT001</field>
+            <field name="model_year">2024</field>
+            <field name="color">Black</field>
+            <field name="seats">5</field>
+            <field name="fuel_type">gasoline</field>
+            <field name="transmission">automatic</field>
+            <field name="rental_category_id" ref="category_compact"/>
+            <field name="rental_state">available</field>
+            <field name="odometer">8000</field>
+        </record>
+
+        <record id="vehicle_suv_1" model="fleet.vehicle">
+            <field name="model_id" ref="model_fortuner"/>
+            <field name="license_plate">34567</field>
+            <field name="vin_sn">VIN123SUV001</field>
+            <field name="model_year">2024</field>
+            <field name="color">White</field>
+            <field name="seats">7</field>
+            <field name="fuel_type">diesel</field>
+            <field name="transmission">automatic</field>
+            <field name="rental_category_id" ref="category_suv"/>
+            <field name="rental_state">available</field>
+            <field name="odometer">5000</field>
+        </record>
+
+        <record id="vehicle_suv_2" model="fleet.vehicle">
+            <field name="model_id" ref="model_patrol"/>
+            <field name="license_plate">34568</field>
+            <field name="vin_sn">VIN123SUV002</field>
+            <field name="model_year">2024</field>
+            <field name="color">Black</field>
+            <field name="seats">7</field>
+            <field name="fuel_type">gasoline</field>
+            <field name="transmission">automatic</field>
+            <field name="rental_category_id" ref="category_suv"/>
+            <field name="rental_state">rented</field>
+            <field name="odometer">3000</field>
+        </record>
+
+        <record id="vehicle_luxury_1" model="fleet.vehicle">
+            <field name="model_id" ref="model_camry"/>
+            <field name="license_plate">45678</field>
+            <field name="vin_sn">VIN123LUXURY001</field>
+            <field name="model_year">2024</field>
+            <field name="color">Pearl White</field>
+            <field name="seats">5</field>
+            <field name="fuel_type">gasoline</field>
+            <field name="transmission">automatic</field>
+            <field name="rental_category_id" ref="category_luxury"/>
+            <field name="rental_state">available</field>
+            <field name="odometer">2000</field>
+        </record>
+
+        <!-- Sample Rental Contracts -->
+        <record id="contract_ongoing_1" model="rental.contract">
+            <field name="customer_id" ref="customer_ahmed"/>
+            <field name="vehicle_id" ref="vehicle_suv_2"/>
+            <field name="pickup_date" eval="(DateTime.now() - timedelta(days=2)).strftime('%Y-%m-%d 10:00:00')"/>
+            <field name="return_date" eval="(DateTime.now() + timedelta(days=5)).strftime('%Y-%m-%d 10:00:00')"/>
+            <field name="pickup_location">doha_airport</field>
+            <field name="return_location">doha_airport</field>
+            <field name="daily_rate">250.00</field>
+            <field name="security_deposit">3000.00</field>
+            <field name="insurance_type">super</field>
+            <field name="state">ongoing</field>
+        </record>
+
+    </data>
+</odoo>

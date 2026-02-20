@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Damage Tree View -->
+    <record id="view_vehicle_damage_tree" model="ir.ui.view">
+        <field name="name">vehicle.damage.tree</field>
+        <field name="model">vehicle.damage</field>
+        <field name="arch" type="xml">
+            <list string="Vehicle Damages">
+                <field name="damage_location"/>
+                <field name="damage_type"/>
+                <field name="severity" widget="badge"
+                       decoration-info="severity == 'minor'"
+                       decoration-warning="severity == 'moderate'"
+                       decoration-danger="severity == 'major'"/>
+                <field name="description"/>
+                <field name="estimated_cost"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Damage Form View -->
+    <record id="view_vehicle_damage_form" model="ir.ui.view">
+        <field name="name">vehicle.damage.form</field>
+        <field name="model">vehicle.damage</field>
+        <field name="arch" type="xml">
+            <form string="Vehicle Damage">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="damage_location"/>
+                            <field name="damage_type"/>
+                            <field name="severity"/>
+                        </group>
+                        <group>
+                            <field name="estimated_cost"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description" placeholder="Describe the damage in detail..."/>
+                    </group>
+                    <group>
+                        <field name="damage_photo" widget="image" class="oe_avatar"/>
+                    </group>
+                    <group>
+                        <field name="notes" placeholder="Additional notes..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Inspection Tree View -->
+    <record id="view_vehicle_inspection_tree" model="ir.ui.view">
+        <field name="name">vehicle.inspection.tree</field>
+        <field name="model">vehicle.inspection</field>
+        <field name="arch" type="xml">
+            <list string="Vehicle Inspections" decoration-muted="state == 'completed'">
+                <field name="name"/>
+                <field name="inspection_type" widget="badge"
+                       decoration-info="inspection_type == 'pickup'"
+                       decoration-success="inspection_type == 'return'"/>
+                <field name="vehicle_id"/>
+                <field name="customer_id"/>
+                <field name="inspection_date"/>
+                <field name="odometer_reading"/>
+                <field name="fuel_level"/>
+                <field name="damage_count"/>
+                <field name="state" widget="badge"
+                       decoration-warning="state == 'draft'"
+                       decoration-success="state == 'completed'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Inspection Form View -->
+    <record id="view_vehicle_inspection_form" model="ir.ui.view">
+        <field name="name">vehicle.inspection.form</field>
+        <field name="model">vehicle.inspection</field>
+        <field name="arch" type="xml">
+            <form string="Vehicle Inspection">
+                <header>
+                    <button name="action_complete" string="Complete Inspection" 
+                            type="object" class="oe_highlight" 
+                            invisible="state != 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                        <h2>
+                            <field name="inspection_type" widget="badge" readonly="1"/>
+                        </h2>
+                    </div>
+                    
+                    <group>
+                        <group name="basic_info" string="Basic Information">
+                            <field name="rental_contract_id" options="{'no_create': True}"/>
+                            <field name="vehicle_id"/>
+                            <field name="customer_id"/>
+                        </group>
+                        <group name="inspection_info" string="Inspection Details">
+                            <field name="inspection_date"/>
+                            <field name="inspector_id"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group name="vehicle_status" string="Vehicle Status">
+                            <field name="odometer_reading"/>
+                            <field name="fuel_level"/>
+                        </group>
+                        <group name="condition" string="Overall Condition">
+                            <field name="exterior_condition"/>
+                            <field name="interior_condition"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Checklist" name="checklist">
+                            <group>
+                                <group string="Safety Equipment">
+                                    <field name="spare_tire"/>
+                                    <field name="jack_tools"/>
+                                    <field name="first_aid_kit"/>
+                                    <field name="fire_extinguisher"/>
+                                    <field name="warning_triangle"/>
+                                    <field name="documents_present"/>
+                                </group>
+                                <group string="Functional Tests">
+                                    <field name="lights_working"/>
+                                    <field name="ac_working"/>
+                                    <field name="wipers_working"/>
+                                    <field name="horn_working"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="exterior_notes" placeholder="Any exterior issues or notes..."/>
+                                </group>
+                                <group>
+                                    <field name="interior_notes" placeholder="Any interior issues or notes..."/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="Photos" name="photos">
+                            <group>
+                                <group>
+                                    <field name="photo_front" widget="image" class="oe_avatar" options="{'size': [200, 200]}"/>
+                                    <label for="photo_front" string="Front"/>
+                                    <field name="photo_back" widget="image" class="oe_avatar" options="{'size': [200, 200]}"/>
+                                    <label for="photo_back" string="Back"/>
+                                    <field name="photo_left" widget="image" class="oe_avatar" options="{'size': [200, 200]}"/>
+                                    <label for="photo_left" string="Left Side"/>
+                                </group>
+                                <group>
+                                    <field name="photo_right" widget="image" class="oe_avatar" options="{'size': [200, 200]}"/>
+                                    <label for="photo_right" string="Right Side"/>
+                                    <field name="photo_interior" widget="image" class="oe_avatar" options="{'size': [200, 200]}"/>
+                                    <label for="photo_interior" string="Interior"/>
+                                    <field name="photo_odometer" widget="image" class="oe_avatar" options="{'size': [200, 200]}"/>
+                                    <label for="photo_odometer" string="Odometer"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="Damages" name="damages">
+                            <field name="damage_ids">
+                                <list editable="bottom">
+                                    <field name="damage_location"/>
+                                    <field name="damage_type"/>
+                                    <field name="severity"/>
+                                    <field name="description"/>
+                                    <field name="estimated_cost"/>
+                                </list>
+                            </field>
+                        </page>
+                        
+                        <page string="Signatures" name="signatures">
+                            <group>
+                                <group>
+                                    <field name="customer_signature" widget="image" class="oe_avatar"/>
+                                    <label for="customer_signature" string="Customer Signature"/>
+                                </group>
+                                <group>
+                                    <field name="inspector_signature" widget="image" class="oe_avatar"/>
+                                    <label for="inspector_signature" string="Inspector Signature"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="Notes" name="notes">
+                            <field name="notes" placeholder="Additional notes or observations..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Inspection Action -->
+    <record id="action_vehicle_inspection" model="ir.actions.act_window">
+        <field name="name">Vehicle Inspections</field>
+        <field name="res_model">vehicle.inspection</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_draft': 1}</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_vehicle_inspection" 
+              name="Vehicle Inspections" 
+              parent="menu_car_rental_operations" 
+              action="action_vehicle_inspection" 
+              sequence="30"/>
+
+</odoo>

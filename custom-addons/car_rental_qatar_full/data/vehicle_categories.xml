@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Economy Category -->
+        <record id="category_economy" model="fleet.vehicle.category">
+            <field name="name">Economy</field>
+            <field name="sequence">10</field>
+            <field name="daily_rate">100.00</field>
+            <field name="description">Compact and fuel-efficient vehicles perfect for city driving. Examples: Nissan Sunny, Hyundai Accent, Toyota Yaris</field>
+        </record>
+
+        <!-- Compact Category -->
+        <record id="category_compact" model="fleet.vehicle.category">
+            <field name="name">Compact</field>
+            <field name="sequence">20</field>
+            <field name="daily_rate">130.00</field>
+            <field name="description">Comfortable mid-size vehicles with more space. Examples: Toyota Corolla, Honda Civic</field>
+        </record>
+
+        <!-- SUV Category -->
+        <record id="category_suv" model="fleet.vehicle.category">
+            <field name="name">SUV</field>
+            <field name="sequence">30</field>
+            <field name="daily_rate">250.00</field>
+            <field name="description">Spacious sport utility vehicles perfect for families. Examples: Toyota Fortuner, Nissan Patrol, Mitsubishi Pajero</field>
+        </record>
+
+        <!-- Luxury Category -->
+        <record id="category_luxury" model="fleet.vehicle.category">
+            <field name="name">Luxury</field>
+            <field name="sequence">40</field>
+            <field name="daily_rate">500.00</field>
+            <field name="description">Premium vehicles with advanced features. Examples: BMW 5 Series, Mercedes E-Class, Audi A6</field>
+        </record>
+
+        <!-- Van Category -->
+        <record id="category_van" model="fleet.vehicle.category">
+            <field name="name">Van</field>
+            <field name="sequence">50</field>
+            <field name="daily_rate">300.00</field>
+            <field name="description">Large passenger vans for groups. Examples: Toyota Hiace, Nissan Urvan</field>
+        </record>
+
+    </data>
+</odoo>

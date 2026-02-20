@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Extend Fleet Vehicle Form View -->
+    <record id="view_fleet_vehicle_form_inherit" model="ir.ui.view">
+        <field name="name">fleet.vehicle.form.inherit</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+        <field name="arch" type="xml">
+            
+            <!-- Add smart button -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_rentals" 
+                        type="object" 
+                        class="oe_stat_button" 
+                        icon="fa-list">
+                    <field name="rental_count" widget="statinfo" string="Rentals"/>
+                </button>
+            </xpath>
+            
+            
+            <!-- Add Qatar-specific fields in a new page -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Rental Information" name="rental_info">
+                    <group>
+                        <group string="Rental Details">
+                            <field name="rental_state" widget="badge"
+                                   decoration-success="rental_state == 'available'"
+                                   decoration-warning="rental_state == 'maintenance'"
+                                   decoration-danger="rental_state == 'rented'"/>
+                            <field name="rental_category_id"/>
+                            <field name="rental_daily_rate" widget="monetary"/>
+                        </group>
+                        <group string="Registration &amp; Insurance">
+                            <field name="mulkiya_expiry"/>
+                            <field name="insurance_expiry"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Maintenance">
+                            <field name="last_service_date"/>
+                            <field name="next_service_date"/>
+                            <field name="current_odometer"/>
+                        </group>
+                        <group/>
+                    </group>
+                </page>
+            </xpath>
+            
+        </field>
+    </record>
+
+    <!-- Extend Fleet Vehicle Tree View -->
+    <record id="view_fleet_vehicle_tree_inherit" model="ir.ui.view">
+        <field name="name">fleet.vehicle.tree.inherit</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='license_plate']" position="after">
+                <field name="rental_category_id"/>
+                <field name="rental_daily_rate"/>
+                <field name="rental_state" widget="badge"
+                       decoration-success="rental_state == 'available'"
+                       decoration-warning="rental_state == 'maintenance'"
+                       decoration-danger="rental_state == 'rented'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vehicle Category Tree View -->
+    <record id="view_fleet_vehicle_category_tree" model="ir.ui.view">
+        <field name="name">fleet.vehicle.category.tree</field>
+        <field name="model">fleet.vehicle.category</field>
+        <field name="arch" type="xml">
+            <list string="Vehicle Categories">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="daily_rate"/>
+                <field name="weekly_rate"/>
+                <field name="monthly_rate"/>
+                <field name="vehicle_count"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vehicle Category Form View -->
+    <record id="view_fleet_vehicle_category_form" model="ir.ui.view">
+        <field name="name">fleet.vehicle.category.form</field>
+        <field name="model">fleet.vehicle.category</field>
+        <field name="arch" type="xml">
+            <form string="Vehicle Category">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(fleet.fleet_vehicle_action)d" 
+                                type="action" 
+                                class="oe_stat_button" 
+                                icon="fa-car"
+                                context="{'search_default_rental_category_id': id}">
+                            <field name="vehicle_count" widget="statinfo" string="Vehicles"/>
+                        </button>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="sequence"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="daily_rate"/>
+                            <field name="weekly_rate"/>
+                            <field name="monthly_rate"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Description">
+                        <field name="description" nolabel="1" placeholder="Category description..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vehicle Category Action -->
+    <record id="action_fleet_vehicle_category" model="ir.actions.act_window">
+        <field name="name">Vehicle Categories</field>
+        <field name="res_model">fleet.vehicle.category</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Add to Menu -->
+    <menuitem id="menu_vehicle_categories" 
+              name="Vehicle Categories" 
+              parent="menu_car_rental_operations" 
+              action="action_fleet_vehicle_category" 
+              sequence="20"/>
+
+</odoo>

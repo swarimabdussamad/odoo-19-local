@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_rental_contract_user,access.rental.contract.user,model_rental_contract,base.group_user,1,1,1,1
+access_fleet_vehicle_category_user,access.fleet.vehicle.category.user,model_fleet_vehicle_category,base.group_user,1,1,1,1
+access_vehicle_inspection_user,access.vehicle.inspection.user,model_vehicle_inspection,base.group_user,1,1,1,1
+access_vehicle_damage_user,access.vehicle.damage.user,model_vehicle_damage,base.group_user,1,1,1,1
+access_customer_document_user,access.customer.document.user,model_customer_document,base.group_user,1,1,1,1
+access_rental_dashboard_user,access.rental.dashboard.user,model_rental_dashboard,base.group_user,1,1,1,1

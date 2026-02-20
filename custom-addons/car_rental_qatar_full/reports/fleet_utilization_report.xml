@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Fleet Utilization Report -->
+    <record id="view_fleet_utilization_report_pivot" model="ir.ui.view">
+        <field name="name">rental.contract.pivot</field>
+        <field name="model">rental.contract</field>
+        <field name="arch" type="xml">
+            <pivot string="Fleet Utilization Analysis">
+                <field name="vehicle_id" type="row"/>
+                <field name="pickup_date" interval="month" type="col"/>
+                <field name="total_days" type="measure"/>
+                <field name="rental_amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_fleet_utilization_report_graph" model="ir.ui.view">
+        <field name="name">rental.contract.graph</field>
+        <field name="model">rental.contract</field>
+        <field name="arch" type="xml">
+            <graph string="Revenue Analysis" type="bar" stacked="True">
+                <field name="pickup_date" interval="month"/>
+                <field name="rental_amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Fleet Utilization Action -->
+    <record id="action_fleet_utilization_report" model="ir.actions.act_window">
+        <field name="name">Fleet Utilization Report</field>
+        <field name="res_model">rental.contract</field>
+        <field name="view_mode">pivot,graph,list,form</field>
+        <field name="domain">[('state', 'in', ['ongoing', 'returned', 'closed'])]</field>
+        <field name="context">{'search_default_group_vehicle': 1}</field>
+    </record>
+
+    <!-- Revenue Report Action -->
+    <record id="action_revenue_report" model="ir.actions.act_window">
+        <field name="name">Revenue Report</field>
+        <field name="res_model">rental.contract</field>
+        <field name="view_mode">graph,pivot,list</field>
+        <field name="domain">[('state', 'in', ['ongoing', 'returned', 'closed'])]</field>
+        <field name="context">{'search_default_group_pickup_date': 1}</field>
+    </record>
+
+    <!-- Reports Menu -->
+    <menuitem id="menu_car_rental_reports" 
+              name="Reports" 
+              parent="menu_car_rental_root" 
+              sequence="90"/>
+    
+    <menuitem id="menu_fleet_utilization_report" 
+              name="Fleet Utilization" 
+              parent="menu_car_rental_reports" 
+              action="action_fleet_utilization_report" 
+              sequence="10"/>
+    
+    <menuitem id="menu_revenue_report" 
+              name="Revenue Analysis" 
+              parent="menu_car_rental_reports" 
+              action="action_revenue_report" 
+              sequence="20"/>
+
+</odoo>

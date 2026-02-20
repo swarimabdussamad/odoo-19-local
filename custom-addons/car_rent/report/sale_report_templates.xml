@@ -66,16 +66,74 @@
                 </div>
             </t>
         </xpath>
+        <xpath expr="//div[@name='so_total_summary']" position="replace">
+
+        <div class="clearfix" name="so_total_summary">
+            <div id="total" class="row mt-n3">
+                <div class="col-sm-7 col-md-6 ms-auto">
+
+                    <table class="table table-borderless">
+                        <tr>
+                            <td class="text-end">
+                                <strong>Rental Total :</strong>
+                            </td>
+                            <td class="text-end">
+                                <span t-field="doc.rental_total"
+                                      t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+        </xpath>
 
         <!-- Hide the standard order lines table when rental lines exist -->
         <xpath expr="//table[hasclass('o_main_table')]" position="attributes">
             <attribute name="t-if">not doc.rental_line_ids</attribute>
         </xpath>
 
+        <!-- Replace the totals section when rental lines exist -->
+        <xpath expr="//div[@id='total']" position="replace">
+            <div id="total" class="row">
+                <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ms-auto">
+                    <t t-if="doc.rental_line_ids">
+                        <!-- Custom totals for rental orders -->
+                        <table class="table table-sm" style="page-break-inside: avoid;">
+                            <t t-set="rental_subtotal" t-value="sum(doc.rental_line_ids.mapped('subtotal'))"/>
+                            <t t-set="tax_amount" t-value="doc.amount_tax"/>
+                            
+                            <tr class="border-black o_total">
+                                <td><strong>Total</strong></td>
+                                <td class="text-end">
+                                    <span t-esc="'%.2f' % (rental_subtotal + tax_amount)" style="white-space: nowrap;"/>
+                                    <span t-field="doc.currency_id.symbol"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </t>
+                    <t t-else="">
+                        <!-- Standard totals for non-rental orders -->
+                        <table class="table table-sm" style="page-break-inside: avoid;">
+                            <tr class="border-black o_total">
+                                <td><strong>Total</strong></td>
+                                <td class="text-end">
+                                    <span t-field="doc.amount_total" 
+                                          t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                </td>
+                            </tr>
+                        </table>
+                    </t>
+                </div>
+            </div>
+        </xpath>
+
     </template>
 
     <!-- Inherit invoice report to show rental details -->
-    <template id="report_invoice_document_rental" inherit_id="account.report_invoice_document" priority="20">
+    <template id="report_invoice_document_rental" inherit_id="l10n_gcc_invoice.l10n_gcc_report_invoice_document" priority="20">
         
         <!-- Hide standard invoice lines when rental exists -->
         <xpath expr="//table[@name='invoice_line_table']" position="attributes">
@@ -139,6 +197,56 @@
                     
                 </t>
             </t>
+        </xpath>
+
+        <!-- Replace totals section for rental invoices -->
+        <xpath expr="//div[@id='total']" position="replace">
+            <div id="total" class="row">
+                <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ms-auto">
+                    <t t-if="o.invoice_origin">
+                        <t t-set="sale_order" t-value="request.env['sale.order'].search([('name', '=', o.invoice_origin)], limit=1)"/>
+                        <t t-if="sale_order and sale_order.rental_line_ids">
+                            <!-- Custom totals for rental invoices -->
+                            <table class="table table-sm" style="page-break-inside: avoid;">
+                                <t t-set="rental_subtotal" t-value="sum(sale_order.rental_line_ids.mapped('subtotal'))"/>
+                                <t t-set="tax_amount" t-value="o.amount_tax"/>
+                                
+                                <tr class="border-black o_total">
+                                    <td><strong>Total</strong></td>
+                                    <td class="text-end">
+                                        <span t-esc="'%.2f' % (rental_subtotal + tax_amount)" style="white-space: nowrap;"/>
+                                        <span t-field="o.currency_id.symbol"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </t>
+                        <t t-else="">
+                            <!-- Standard totals for non-rental invoices -->
+                            <table class="table table-sm" style="page-break-inside: avoid;">
+                                <tr class="border-black o_total">
+                                    <td><strong>Total</strong></td>
+                                    <td class="text-end">
+                                        <span t-field="o.amount_total" 
+                                              t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <!-- Standard totals when no sale order origin -->
+                        <table class="table table-sm" style="page-break-inside: avoid;">
+                            <tr class="border-black o_total">
+                                <td><strong>Total</strong></td>
+                                <td class="text-end">
+                                    <span t-field="o.amount_total" 
+                                          t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                </td>
+                            </tr>
+                        </table>
+                    </t>
+                </div>
+            </div>
         </xpath>
 
     </template>

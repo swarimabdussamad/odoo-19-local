@@ -35,14 +35,12 @@
                         </form>
 
                     </field>
-
+                    <group class="oe_subtotal_footer d-flex justify-content-end mt-3">
                     <group>
-                        <button name="create_rental_order_lines" 
-                                string="Update Order Lines" 
-                                type="object" 
-                                class="btn-secondary"
-                                invisible="state in ['sale', 'done', 'cancel']"/>
+                        <field name="rental_total" readonly="1" string="Total Rental Amount"/>
                     </group>
+                </group>
+                    
 
                 </page>
 

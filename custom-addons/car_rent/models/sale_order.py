@@ -64,6 +64,16 @@ class SaleOrder(models.Model):
         'order_id',
         string="Vehicle Rental Lines"
     )
+    rental_total = fields.Float(
+        string="Rental Total",
+        compute="_compute_rental_total",
+        store=True
+    )
+
+    @api.depends('rental_line_ids.subtotal')
+    def _compute_rental_total(self):
+        for order in self:
+            order.rental_total = sum(order.rental_line_ids.mapped('subtotal'))
 
     def create_rental_order_lines(self):
         """Sync rental lines to sale order lines for proper invoicing"""
