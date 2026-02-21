@@ -30,13 +30,14 @@
         # Data
         "data/sequence.xml",
         "data/vehicle_categories.xml",
+        # Reports (load before views that reference them)
+        "reports/rental_contract_report.xml",
+        "reports/fleet_utilization_report.xml",
         # Views
         "views/rental_contract_views.xml",
         "views/fleet_vehicle_view.xml",
         "views/vehicle_inspection_views.xml",
         "views/customer_document_views.xml",
-        # Reports
-        "reports/fleet_utilization_report.xml",
     ],
     "demo": [],
     "installable": True,
